@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "dbg.h"
-
+#include<string.h>
 
 int print_a_message(const char *msg)
 {
@@ -14,9 +14,9 @@ int print_a_message(const char *msg)
 int uppercase(const char *msg)
 {
     int i = 0;
-
+    int a = strlen(msg);//string函数能够识别字符串长度且不包括'0\'
     // BUG: \0 termination problems
-    for(i = 0; msg[i] != '\0'; i++) {
+    for(i = 0; i<a; i++) {
         printf("%c", toupper(msg[i]));
     }
 
