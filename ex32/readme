@@ -3,7 +3,7 @@
 1、首先ex32并不是一个单独的ex，首先你需要先看ex20了解dbg.h这个debug的头文件。随后你得从ex28开始跟着zed从makefile开始一点点做，从一开始的makefile再到ex29的库和链接，再到后面的自动化测试写.sh脚本，minunit.h头文件等
 2、来到了我们的重头戏ex32，如果是按照讲义的格式来写，你的头文件会收获一大堆error，首先你的头文件调用要自己手动选择头文件所在的地址，并不能直接引。
 3、最最难发现的点，出自list.h调用无效上，一开始照着做，等到make之后会发现你调用的每一个来自list.h的函数都会undefined reference to 。。。。。我一开始还在不停地改头文件的格式，结果还是没用，后来我又去找到底哪错了，  
-  整了别的版本都没有用。后来实在没办法了上stackoverflow上找到了。原帖在这：https://stackoverflow.com/questions/23851098/c-compile-errors-learn-c-the-hard-way-ex-32
+  整了别的版本都没有用。后来想起来去stackoverflow上找，结果真找到了。原帖在这：https://stackoverflow.com/questions/23851098/c-compile-errors-learn-c-the-hard-way-ex-32
 他解释了由于操作系统不同，我们不能照搬zed的makefile，而是要做一些修改，详情见原帖。
 最后我又发现库不能调用了，又添加了库的路径，这才完全搞完，真难绷。
 .
