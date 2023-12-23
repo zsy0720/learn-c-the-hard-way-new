@@ -58,6 +58,7 @@ void *List_first(List *list)
     return list->first->value;
 }
 
+//返回最后一个链表的value
 void *List_last(List *list)
 {
     if (!list || !list->last) return NULL;
@@ -66,6 +67,7 @@ void *List_last(List *list)
     return list->last->value;    
 }
 
+//检查链表是否为空，创建一个链表，随后检查链表
 void List_push(List *list, void *value)
 {
     if (!list || !value) return;
