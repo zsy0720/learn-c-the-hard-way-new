@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "dbg.h"//牵扯到自己写的头文件要用“”来调用
 
-static ListNode *List_createNode();
+static ListNode *List_createNode();//静态变量
 
 List *List_create()
 {
