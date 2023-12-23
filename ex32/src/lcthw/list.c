@@ -73,21 +73,21 @@ void List_push(List *list, void *value)
     if (!list || !value) return;
 
     ListNode *node = List_createNode();
-    check_mem(node);
+    check_mem(node);//#define check(A, M, ...) if(!(A)) { log_err(M, ##__VA_ARGS__); errno=0; goto error; }
 
     node->value = value;
 
-    if (list->count == 0)
+    if (list->count == 0)//若链表值为0，从头开始
     {
         assert(list->last == NULL && list->first == NULL);
 
-        list->first = node;
-        list->last = list->first;
+        list->first = node;//将node链表首地址赋给list
+        list->last = list->first;//list—>first给list_last
     }
     else
     {
-		node->prev = list->last;
-		list->last->next = node;
+		node->prev = list->last;//若不是从头开始，将list_last赋给node_prev
+		list->last->next = node;node赋给list_last_next作为下一个
 		
         list->last = node;
     }
@@ -138,21 +138,22 @@ void *List_shift(List *list)
     return List_remove(list, list->first);
 }
 
+
 void *List_remove(List *list, ListNode *node)
 {
     if (list == NULL || node == NULL || list->count == 0) return NULL;
     
-    if (node->prev)
+    if (node->prev)//若前一个链表成员存在，则将下个成员变成当前这个
     {
         node->prev->next = node->next;
     }
     else
     {
-        assert(node == list->first);
+        assert(node == list->first);//若链表node与list的下一个一样，则将node_next赋给list作为第一个
         list->first = node->next;
     }
 
-    if (node->next)
+    if (node->next)//若后一个链表成员存在，则将前一个成员当成现在的
     {
         node->next->prev = node->prev;
     }
@@ -169,6 +170,7 @@ void *List_remove(List *list, ListNode *node)
     return data;
 }
 
+//定义一个空的链表
 static ListNode *List_createNode()
 {
 	ListNode *node = malloc(sizeof(ListNode));
