@@ -9,13 +9,13 @@ typedef struct ListNode {
     struct ListNode *next;
     struct ListNode *prev;
     void *value;
-} ListNode;
+} ListNode;//定义了一个双向链表结构体，能够向前和向后找
 
 typedef struct List {
     int count;
     ListNode *first;
     ListNode *last;
-} List;
+} List;//定义了一个列表。里面存链表第一个和最后一个成员
 
 List *List_create();
 void List_destroy(List *list);
