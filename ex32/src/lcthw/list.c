@@ -67,7 +67,7 @@ void *List_last(List *list)
     return list->last->value;    
 }
 
-//检查链表是否为空，创建一个链表，随后检查链表
+//检查链表是否为空，创建一个链表，随后检查链表 list_push作用是在链表末尾添加一个元素
 void List_push(List *list, void *value)
 {
     if (!list || !value) return;
@@ -98,6 +98,7 @@ error:
     return;
 }
 
+//list_pop与list_push刚好相反，他是去除最后一个元素
 void *List_pop(List *list)
 {
 	if (!list) return NULL;
@@ -105,6 +106,7 @@ void *List_pop(List *list)
 	return List_remove(list, list->last);	
 }
 
+//快速向表头添加文件
 void List_unshift(List *list, void *value)
 {
     if (!list || !value) return;
@@ -131,6 +133,7 @@ error:
 	return;
 }
 
+//去除表头第一个元素并且返回当前元素
 void *List_shift(List *list)
 {
     if (!list) return NULL;
