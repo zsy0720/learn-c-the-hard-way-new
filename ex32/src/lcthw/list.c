@@ -173,7 +173,7 @@ void *List_remove(List *list, ListNode *node)
     return data;
 }
 
-//定义一个空的链表
+//定义一个空的链表，这是一个静态变量只能由这个文件调用
 static ListNode *List_createNode()
 {
 	ListNode *node = malloc(sizeof(ListNode));
