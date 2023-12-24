@@ -39,11 +39,11 @@ char *test_bubble_sort()
     List *words = create_words();
 
     // should work on a list that needs sorting
-    int rc = List_bubble_sort(words, (List_compare)strcmp);
+    int rc = List_bubble_sort(words, (List_compare)strcmp);//rc==0说明排序成功
     mu_assert(rc == 0, "Bubble sort failed.");//#define mu_assert(test, message) if (!(test)) { log_err(message); return message; }
-    mu_assert(is_sorted(words), "Words are not sorted after bubble sort.");
+    mu_assert(is_sorted(words), "Words are not sorted after bubble sort.");//如果没排完，return 0，排完了return1
 
-    // should work on an already sorted list
+    // should work on an already sorted list//排完序再执行一次
     rc = List_bubble_sort(words, (List_compare)strcmp);
     mu_assert(rc == 0, "Bubble sort of already sorted failed.");
     mu_assert(is_sorted(words), "Words should be sort if already bubble sorted.");
@@ -51,7 +51,7 @@ char *test_bubble_sort()
     List_destroy(words);
 
     // should work on an empty list
-    words = List_create(words);
+    words = List_create(words);//空链表
     rc = List_bubble_sort(words, (List_compare)strcmp);
     mu_assert(rc == 0, "Bubble sort failed on empty list.");
     mu_assert(is_sorted(words), "Words should be sorted if empty.");
