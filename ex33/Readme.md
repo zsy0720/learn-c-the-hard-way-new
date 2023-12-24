@@ -1,0 +1,4 @@
+这次链表算法没有出什么太大的问题，首先就是在list.h中定义的宏不能通过调用list.h直接使用，得将这个宏在list_algos.h里面定义之后再使用，很怪，而且只有这样才能不报错
+另一个就是gcc编译器的报错，warning老是在一些奇奇怪怪的东西上，比如我调用了list_algos.h，gcc提示我LIST_FOREACH这个宏重复定义了，但是当我删掉list_algos.h里面的宏时，它又报错了
+还有就是一开始定义的函数类型，我在list_algos.h声明函数的时候把List *List_merge_sort这个声明的指针给忘了导致报错
+最后就是库的问题，给我整了个undefined symbol，最后把export LD_LIBRARY_PATH指向了库所在的文件才完事
