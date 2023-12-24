@@ -31,7 +31,7 @@ int List_bubble_sort(List *list, List_compare cmp)//冒泡排序
     return 0;
 }
 
-inline List *List_merge(List *left, List *right, List_compare cmp)//归并排序，先将要排序的数据分成两个小数排序，再将两个排好的再排一次
+inline List *List_merge(List *left, List *right, List_compare cmp)//归并排序算法，先将要排序的数据分成两个小数排序，再将两个排好的再排一次
 {
     List *result = List_create();
     void *val = NULL;
@@ -39,13 +39,13 @@ inline List *List_merge(List *left, List *right, List_compare cmp)//归并排序
     while(List_count(left) > 0 || List_count(right) > 0) {
         if(List_count(left) > 0 && List_count(right) > 0) {
             if(cmp(List_first(left), List_first(right)) <= 0) {//两个数组全>0排序
-                val = List_shift(left);
+                val = List_shift(left);//将小的那个表头元素去除
             } else {
                 val = List_shift(right);
             }
 
-            List_push(result, val);
-        } else if(List_count(left) > 0) {
+            List_push(result, val);//将去除小元素的放到result的头部
+        } else if(List_count(left) > 0) {//有一个是<0的
             val = List_shift(left);
             List_push(result, val);
         } else if(List_count(right) > 0) {
@@ -67,14 +67,14 @@ List *List_merge_sort(List *list, List_compare cmp)
     List *right = List_create();
     int middle = List_count(list) / 2;
 
-    LIST_FOREACH(list, first, next, cur) {
+    LIST_FOREACH(cur，list) {
         if(middle > 0) {
             List_push(left, cur->value);
         } else {
             List_push(right, cur->value);
         }
 
-        middle--;
+        middle--;//每一次都要再一分为二
     }
 
     List *sort_left = List_merge_sort(left, cmp);
@@ -83,5 +83,5 @@ List *List_merge_sort(List *list, List_compare cmp)
     if(sort_left != left) List_destroy(left);
     if(sort_right != right) List_destroy(right);
 
-    return List_merge(sort_left, sort_right, cmp);
+    return List_merge(sort_left, sort_right, cmp);//将排好序的两个链表送回原归并表进行一次合成。
 }
