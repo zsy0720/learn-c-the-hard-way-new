@@ -23,8 +23,10 @@ List *create_words()
 int is_sorted(List *words)
 {
     LIST_FOREACH(cur，words) {
+        // int strcmp(const char *str1, const char *str2) 把 str1 所指向的字符串和 str2 所指向的字符串进行比较，str1>str2,返回值>0,str1=str2,返回值=0，str1<str2,返回值<0
         if(cur->next && strcmp(cur->value, cur->next->value) > 0) {//如果当前value>next_value，并且cur->next不为空
-            debug("%s %s", (char *)cur->value, (char *)cur->next->value);
+            debug("%s %s", (char *)cur->value, (char *)cur->next->value);//#define debug(M, ...) fprintf(stderr, "DEBUG %s:%d: " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+//fprintf(FILE *steam,const char *format, ... )//steam:要被写入的流，format：写入文件的内容，可以有多个，看定义了几个。##__VA_ARGS__，意思是将剩余的所有额外参数放到这里
             return 0;
         }
     }
