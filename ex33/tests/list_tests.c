@@ -40,7 +40,7 @@ char *test_bubble_sort()
 
     // should work on a list that needs sorting
     int rc = List_bubble_sort(words, (List_compare)strcmp);
-    mu_assert(rc == 0, "Bubble sort failed.");
+    mu_assert(rc == 0, "Bubble sort failed.");//#define mu_assert(test, message) if (!(test)) { log_err(message); return message; }
     mu_assert(is_sorted(words), "Words are not sorted after bubble sort.");
 
     // should work on an already sorted list
