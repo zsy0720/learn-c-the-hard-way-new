@@ -1,11 +1,12 @@
 #include "minunit.h"
-#include <lcthw/list_algos.h>
+#include /'../src/lcthw/list_algos.h"
 #include <assert.h>
 #include <string.h>
 
 char *values[] = {"XXXX", "1234", "abcd", "xjvef", "NDSS"};
 #define NUM_VALUES 5
 
+//创建一个链表，将上面的value值赋上去
 List *create_words()
 {
     int i = 0;
@@ -18,10 +19,11 @@ List *create_words()
     return words;
 }
 
+//排序
 int is_sorted(List *words)
 {
-    LIST_FOREACH(words, first, next, cur) {
-        if(cur->next && strcmp(cur->value, cur->next->value) > 0) {
+    LIST_FOREACH(cur，words) {
+        if(cur->next && strcmp(cur->value, cur->next->value) > 0) {//如果当前value>next_value，并且cur->next不为空
             debug("%s %s", (char *)cur->value, (char *)cur->next->value);
             return 0;
         }
