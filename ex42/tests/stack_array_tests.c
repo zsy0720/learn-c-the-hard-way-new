@@ -9,7 +9,7 @@ char *tests[] = {"test1 data", "test2 data", "test3 data"};
 
 char *test_create()
 {
-    stack = Stack_create(sizeof(void*),NUM_TESTS);
+    stack = Stack_create(sizeof(void*),NUM_TESTS);//不确定数据类型可以用void*,这样保险
     mu_assert(stack != NULL, "Failed to create stack.");
 
     return NULL;
@@ -39,7 +39,7 @@ char *test_push_pop()
 
     for(i = NUM_TESTS - 1; i >= 0; i--) {
         char *val = Stack_pop(stack);
-        mu_assert(val == tests[i], "Wrong value on pop.");
+        mu_assert(val == tests[i], "Wrong value on pop.");//遍历元素只需要将下标遍历即可
     }
 
     mu_assert(Stack_count(stack) == 0, "Wrong count after pop.");
