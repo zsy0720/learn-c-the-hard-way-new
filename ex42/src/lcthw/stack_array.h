@@ -16,5 +16,5 @@ ifndef _STACK_DARRAY_H
  16 #define Stack_count DArray_count
  17 
  18 #define STACK_FOREACH(stack)\
-     for(int a =0;a<stack->max;a++)
+     for(int a =0;a<stack->max;a++)//stack的便利如果用darray动态数组做的话反而不用那么麻烦，因为动态数组使用下标表示元素位置的，所以只需要将下标从0->max即可
     #endif
