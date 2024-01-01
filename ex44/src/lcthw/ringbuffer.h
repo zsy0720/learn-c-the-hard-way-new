@@ -1,8 +1,9 @@
-#ifndef _LCTHW_RINGBUFFER_H_
-#define _LCTHW_RINGBUFFER_H_
+#ifndef _RINGBUFFER_H_
+#define _RINGBUFFER_H_
 
 #include <lcthw/bstrlib.h>
 
+//定义一个ringbuffer结构体，他有两个指针，一个读一个写，二者分开，假若一个数据长度过长超过剩余内存长度，指针就会先读正好到最后长度的数据，随后将指针指向开头，再读剩下的。
 typedef struct{
     char* buffer;
     int length;
