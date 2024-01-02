@@ -54,16 +54,7 @@ ring_buffer_create (struct ring_buffer *buffer, unsigned long order)
   if (status)
     report_exceptional_condition ();
  
-  buffer->address = mmap (NULL, buffer->count_bytes << 1, PROT_NONE,
-                          MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
- 
-  if (buffer->address == MAP_FAILED)
-    report_exceptional_condition ();
- 
-  address =
-    mmap (buffer->address, buffer->count_bytes, PROT_READ | PROT_WRITE,
-          MAP_FIXED | MAP_SHARED, file_descriptor, 0);
-  //void *mmap(void *start, size_t length, int prot, int flags, int fd, off_t offset);
+   //void *mmap(void *start, size_t length, int prot, int flags, int fd, off_t offset);
   //该函数主要用途有三个：
 //1、将一个普通文件映射到内存中，通常在需要对文件进行频繁读写时使用，这样用内存读写取代I/O读写，以获得较高的性能；
 //2、将特殊文件进行匿名内存映射，可以为关联进程提供共享内存空间；
@@ -81,13 +72,24 @@ ring_buffer_create (struct ring_buffer *buffer, unsigned long order)
 //fd：要映射到内存中的文件描述符。如果使用匿名内存映射时，即flags中设置了MAP_ANONYMOUS，fd设为-1
   //offset：文件映射的偏移量，通常设置为0，代表从文件最前方开始对应，offset必须是分页大小的整数倍
  
+  buffer->address = mmap (NULL, buffer->count_bytes << 1, PROT_NONE,
+                          MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
+ 
+  if (buffer->address == MAP_FAILED)
+    report_exceptional_condition ();
+ 
+  address =
+    mmap (buffer->address, buffer->count_bytes, PROT_READ | PROT_WRITE,
+          MAP_FIXED | MAP_SHARED, file_descriptor, 0);
+
   if (address != buffer->address)
     report_exceptional_condition ();
  
   address = mmap (buffer->address + buffer->count_bytes,
                   buffer->count_bytes, PROT_READ | PROT_WRITE,
                   MAP_FIXED | MAP_SHARED, file_descriptor, 0);
- 
+ //三次运用mmap函数，第一次在内存中随便找了块大小是count_bytes的空间，这是为了得到一个合法的，对齐了的内存地址，后续的两个内存申请都以这个为准，第二次把一个文件描述符映射到这个内存，第三次是紧跟着这块内存的后面，又申请了一块count_bytes的空间，并且把和第二次一样的文件描述符映射到这块内存里
+
   if (address != buffer->address + buffer->count_bytes)
     report_exceptional_condition ();
  
@@ -117,6 +119,8 @@ ring_buffer_write_address (struct ring_buffer *buffer)
   /*** void pointer arithmetic is a constraint violation. ***/
   return buffer->address + buffer->write_offset_bytes;
 }
+//写操作很简单，单纯指针加
+//值得注意的是，在三次调用mmap函数后申请的两块内存是互为镜像的，两块内存地址连续，即当第一块指针写满开始写第二块指针时，第一块指针的对应位置也会被覆盖。
  
 void
 ring_buffer_write_advance (struct ring_buffer *buffer,
@@ -143,6 +147,8 @@ ring_buffer_read_advance (struct ring_buffer *buffer,
       buffer->write_offset_bytes -= buffer->count_bytes;
     }
 }
+//而对于读操作，情况要复杂的多，由于两块内存镜像且连续，理论上只需将第一块内存读完就可以读完两块内存。
+//所以当读操作读到第一块内存边缘时，直接将读地址减去第一块内存的大小，读指针重新回到开头
  
 unsigned long
 ring_buffer_count_bytes (struct ring_buffer *buffer)
