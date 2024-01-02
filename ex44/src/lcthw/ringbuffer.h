@@ -7,8 +7,10 @@
 typedef struct{
     char* buffer;
     int length;
-    int start;
-    int end;
+    int *start;
+    int *end;
+    int *read;
+    int *write;
 } RingBuffer;
 
 RingBuffer* RingBuffer_create(int length);
